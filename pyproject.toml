@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=64", "setuptools_scm>=8", "pybind11>=2.10.4", "cmake>=3.16"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "linkedin_profile_chatbot"
+dynamic = ["version"]
+authors = [
+    {name = "Nima Ghorbani"},
+]
+maintainers = [
+    {name = "NIma Ghorbani"},
+]
+description = "A Chatbot to have discussion with a Linkedin Profile"
+readme = "README.md"
+license = {file = "LICENSE.txt"}
+requires-python = ">=3.11.10,<3.12"
+dependencies = [
+    "fastapi>=0.116.0",
+    "openai>=1.93.3",
+    "openapi>=2.0.0",
+    "pypdf2>=3.0.1",
+    "uvicorn>=0.35.0",
+]
+
+# [project.optional-dependencies]
+# headless = ["opencv-python-headless==4.10.0.84"]
+# gui = ["opencv-python==4.10.0.84"]
+# torch = [
+#     "torch==2.4.1",
+#     "torchvision==0.19.1",
+#     "torchaudio==2.4.1",
+# ]
+
+
+# [project.scripts]
+# Removed compute_version since setuptools_scm handles versioning automatically
+
+[tool.uv]
+python-preference = "only-managed"
+python-downloads = "automatic"
+
+
+
+[tool.setuptools_scm]
+write_to = "linkedin_profile_chatbot/__init__.py"
+version_scheme = "post-release"
+local_scheme = "node-and-date"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["linkedin_profile_chatbot*"]
+exclude = ["tests*"]
+
+[dependency-groups]
+
