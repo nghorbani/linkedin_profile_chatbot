@@ -155,5 +155,5 @@ dmypy.json
 
 cython_debug/
 .history/
-me/linkedin.pdf
-me/summary.txt
+#me/linkedin.pdf
+#me/summary.txt

@@ -1,0 +1,7 @@
+I am an engineer by nature and a scientist by training. My career interests primarily include machine learning for computer vision and computer graphics with a focus on 3D human body in motion.
+
+Building the future of sports content viewing on the Metaverse is what takes me to work every day as Head of AI at Sporttotal.tv. Basically we turn human players in images of sport events into motion-accurate, digitized 3D avatar parameters that efficiently enable on-demand immersive 3D viewing of the game and scalable data analysis.
+
+Previously I was an Applied Research Scientist at Kaia Health GmbH, and before that, I was a Research Engineer at the Perceiving Systems Department of the Max-Planck Institute for Intelligent Systems lead by Michael Black.
+
+I have a BSc. in Electrical Engineering from Tabriz Azad University, Iran, and an MSc. in Neural Information Processing from Eberhard Karls University of Tübingen, Germany.
