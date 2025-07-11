@@ -1,5 +1,5 @@
-from .core import openai_client, system_prompt, evaluator_system_prompt, gemini, Evaluation
-from .agent_tools import tools, handle_tool_calls
+from linkedin_profile_chatbot.core import openai_client, system_prompt, evaluator_system_prompt, gemini, Evaluation
+from linkedin_profile_chatbot.agent_tools import tools, handle_tool_calls
 from loguru import logger
 
 def evaluator_user_prompt(reply, message, history):

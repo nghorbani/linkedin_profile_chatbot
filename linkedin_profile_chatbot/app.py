@@ -1,5 +1,5 @@
 import gradio as gr
-from .chat import chat
+from linkedin_profile_chatbot.chat import chat
 
 # ========== Gradio Interface ==========
 def create_gradio_interface():
