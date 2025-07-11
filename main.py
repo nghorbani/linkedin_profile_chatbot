@@ -1,5 +1,5 @@
-from linkedin_profile_chatbot.app import app
+from linkedin_profile_chatbot.app import create_gradio_interface
 
 if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    app = create_gradio_interface()
+    app.launch()

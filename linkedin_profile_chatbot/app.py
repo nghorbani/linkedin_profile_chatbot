@@ -1,30 +1,24 @@
-from fastapi import FastAPI, Request
-from fastapi.middleware.cors import CORSMiddleware
+import gradio as gr
 from .chat import chat
 
-# ========== FastAPI App ==========
-app = FastAPI()
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # or restrict to your domain
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-@app.post("/chat")
-async def chat_endpoint(request: Request):
-    data = await request.json()
-    user_message = data.get("message")
-    history = data.get("history", [])  # Format: [{"role": "user", "content": ...}, {"role": "assistant", "content": ...}]
-
-    try:
-        response = chat(user_message, history)
-        return {"response": response}
-    except Exception as e:
-        return {"response": f"Error: {str(e)}"}
+# ========== Gradio Interface ==========
+def create_gradio_interface():
+    """Create and return the Gradio interface"""
+    interface = gr.ChatInterface(
+        chat, 
+        type="messages",
+        title="LinkedIn Profile Chatbot",
+        description="Ask questions about the LinkedIn profile and get intelligent responses.",
+        theme=gr.themes.Soft(),
+        css="""
+        .gradio-container {
+            max-width: 800px !important;
+            margin: 0 auto !important;
+        }
+        """
+    )
+    return interface
 
 if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    app = create_gradio_interface()
+    app.launch()
