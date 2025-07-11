@@ -1,3 +1,10 @@
+---
+title: linkedin_profile_chatbot
+app_file: linkedin_profile_chatbot/app.py
+sdk: gradio
+sdk_version: 5.34.2
+python_version: 3.12
+---
 # LinkedIn Profile Chatbot
 
 A Gradio-based chatbot that can answer questions about your LinkedIn profile using AI. Upload your LinkedIn profile PDF and summary, then deploy to Hugging Face Spaces for easy sharing and embedding.
