@@ -1,11 +1,9 @@
 from dotenv import load_dotenv
 from openai import OpenAI
-import json
-import os
 from pypdf import PdfReader
-from loguru import logger
-from notifiers import get_notifier
 from pathlib import Path
+from pydantic import BaseModel
+import os
 
 load_dotenv(override=True)
 
@@ -13,6 +11,10 @@ load_dotenv(override=True)
 name = "Nima Ghorbani"
 openai_client = OpenAI()
 
+gemini = OpenAI(
+    api_key=os.getenv("GOOGLE_API_KEY"), 
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+)
 
 # ========== Load Profile Data ==========
 
@@ -46,7 +48,7 @@ You are acting as {name}. You are answering questions on {name}'s website, parti
 
 You are provided with a summary of {name}'s background and LinkedIn profile, which you can use to inform your responses.
 
-Be professional, engaging, and conversational — as if you're speaking with a potential client or future employer who discovered the website.
+Be professional, succinct, engaging, and conversational — as if you're speaking with a potential client or future employer who discovered the website. Keep your responses short and to the point.
 
 If a user asks a question you cannot confidently answer, use the `record_unknown_question` tool to log the question — even if it seems trivial or unrelated to {name}'s career.
 
@@ -62,6 +64,34 @@ Use this context to chat with the user, and always stay in character as {name}.
 """
                         
 system_prompt = system_prompt_template.format(
+    name=name,
+    summary=summary,
+    linkedin=linkedin
+)
+
+# ========== Evaluation Model ==========
+
+class Evaluation(BaseModel):
+    is_acceptable: bool
+    feedback: str
+    
+evaluator_system_prompt_template = """You are an evaluator that decides whether a response to a question is acceptable. \
+You are provided with a conversation between a User and an Agent. Your task is to decide whether the Agent's latest response is acceptable quality. \
+Strictly avoid any personal details about the User or Agent. \
+The response should be concise and to the point, and should not include any unnecessary formulation. \
+The Agent is playing the role of {name} and is representing {name} on their website. \
+The Agent has been instructed to be professional and engaging, as if talking to a potential client or future employer who came across the website. \
+The Agent has been provided with context on {name} in the form of their summary and LinkedIn details. Here's the information:
+## Summary:
+{summary}
+
+## LinkedIn Profile:
+{linkedin}
+
+With this context, please evaluate the latest response, replying with whether the response is acceptable and your feedback.
+"""
+
+evaluator_system_prompt = evaluator_system_prompt_template.format(
     name=name,
     summary=summary,
     linkedin=linkedin
