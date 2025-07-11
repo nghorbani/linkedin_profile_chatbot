@@ -1,7 +1,3 @@
----
-title: LinkedIn Profile Chatbot
-python_version: 3.12
----
 # LinkedIn Profile Chatbot
 
 A Gradio-based chatbot that can answer questions about your LinkedIn profile using AI. Upload your LinkedIn profile PDF and summary, then deploy to Hugging Face Spaces for easy sharing and embedding.
