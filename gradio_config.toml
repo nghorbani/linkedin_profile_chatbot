@@ -1,0 +1,4 @@
+[deploy]
+space_id = "nghorbani/linkedin-profile-chatbot"
+title = "LinkedIn Profile Chatbot"
+python_version = "3.12"
