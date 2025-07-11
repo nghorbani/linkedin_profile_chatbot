@@ -1,12 +1,15 @@
 ---
-title: linkedin_profile_chatbot
-app_file: linkedin_profile_chatbot/app.py
-sdk: gradio
-sdk_version: 5.34.2
+title: LinkedIn Profile Chatbot
+emoji: 💼
+colorFrom: blue
+colorTo: green
+sdk: docker
+app_port: 7860
+pinned: false
 ---
 # LinkedIn Profile Chatbot
 
-A chatbot that can answer questions about your LinkedIn profile using AI. Upload your LinkedIn profile PDF and a summary, then deploy as a web service that can be embedded in any webpage.
+A Gradio-based chatbot that can answer questions about your LinkedIn profile using AI. Upload your LinkedIn profile PDF and summary, then deploy to Hugging Face Spaces for easy sharing and embedding.
 
 ## Setup Instructions
 
@@ -23,13 +26,13 @@ A chatbot that can answer questions about your LinkedIn profile using AI. Upload
 2. Save this as a plain text file named `summary.txt`
 3. Keep it concise but informative (2-3 paragraphs recommended)
 
-#### Place Files in the `/me` Folder
-1. Copy your `linkedin.pdf` file to the `/me` directory
-2. Copy your `summary.txt` file to the `/me` directory
+#### Place Files in the `/assets` Folder
+1. Copy your `linkedin.pdf` file to the `/assets` directory
+2. Copy your `summary.txt` file to the `/assets` directory
 
 Your file structure should look like:
 ```
-/me
+/assets
 ├── linkedin.pdf
 └── summary.txt
 ```
@@ -40,116 +43,116 @@ Your file structure should look like:
 ```bash
 # Install using uv (recommended)
 uv sync
-
 ```
 
-#### Run the Server Locally
+#### Run the Gradio App Locally
 ```bash
-python main.py
+# Using uv
+uv run linkedin_profile_chatbit/app.py
 ```
 
-The server will start on `http://localhost:8000` by default.
+The Gradio interface will start on `http://localhost:7860` by default.
 
-### 3. Deployment with Render
+### 3. Deployment to Hugging Face Spaces
 
-#### Deploy to Render
-1. Push your code to a GitHub repository
-2. Go to [Render.com](https://render.com) and sign up/login
-3. Click "New +" and select "Web Service"
-4. Connect your GitHub repository
-5. Configure the deployment:
-   - **Build Command**: `uv sync`
-   - **Start Command**: `uvicorn main:app --host=0.0.0.0 --port=$PORT`
-   - **Environment**: Python 3.11.10
-6. Add any required environment variables
-7. Click "Deploy Web Service"
+#### Prerequisites
+- A Hugging Face account
+- Your repository pushed to GitHub or Hugging Face Hub
 
-Render will provide you with a public URL for your deployed chatbot API.
+#### Deploy to Hugging Face Spaces
+1. Go to [Hugging Face Spaces](https://huggingface.co/spaces)
+2. Click "Create new Space"
+3. Choose a name for your space
+4. Select "Docker" as the SDK
+5. Connect your GitHub repository or upload your files
+6. The space will automatically build using the provided Dockerfile
 
-### 4. Embed in Your Webpage
+#### Configuration
+The project is pre-configured for Hugging Face Spaces with:
+- **Dockerfile**: Uses Python 3.12 with uv for fast dependency management
+- **README.md header**: Configured for Docker deployment
+- **Port 7860**: Standard Gradio port for Hugging Face Spaces
 
-#### Basic HTML Embedding
-Add this HTML code to your webpage where you want the chat interface to appear:
+### 4. Environment Variables
 
-```html
-<div id="linkedin-chatbot">
-    <iframe 
-        src="https://your-render-app-name.onrender.com" 
-        width="400" 
-        height="600" 
-        frameborder="0"
-        style="border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-    </iframe>
-</div>
+Create a `.env` file in your project root with your OpenAI API key:
+
+```env
+OPENAI_API_KEY=your_openai_api_key_here
 ```
 
-#### Advanced Integration
-For more control, you can integrate the chatbot using JavaScript:
-
-```html
-<div id="chatbot-container"></div>
-
-<script>
-// Create chatbot iframe dynamically
-const chatbotContainer = document.getElementById('chatbot-container');
-const iframe = document.createElement('iframe');
-iframe.src = 'https://your-render-app-name.onrender.com';
-iframe.width = '400';
-iframe.height = '600';
-iframe.style.border = 'none';
-iframe.style.borderRadius = '10px';
-iframe.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
-chatbotContainer.appendChild(iframe);
-</script>
-```
-
-#### Responsive Design
-For mobile-friendly integration:
-
-```css
-#linkedin-chatbot iframe {
-    width: 100%;
-    max-width: 400px;
-    height: 600px;
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-@media (max-width: 768px) {
-    #linkedin-chatbot iframe {
-        height: 500px;
-    }
-}
-```
+For Hugging Face Spaces, add this as a secret in your Space settings.
 
 ## Usage
 
-Once deployed and embedded:
+### Local Usage
+1. Run the application locally using `uv run run_gradio.py`
+2. Open your browser to `http://localhost:7860`
+3. Start chatting with your LinkedIn profile chatbot
 
-1. Visitors to your website can interact with the chatbot
-2. The chatbot will answer questions about your professional background
-3. It uses your LinkedIn PDF and summary to provide accurate, personalized responses
-4. The chat interface is responsive and works on desktop and mobile devices
+### Deployed Usage
+1. Once deployed to Hugging Face Spaces, your chatbot will be available at your Space URL
+2. Share the URL with others or embed it in your website
+3. The chatbot will answer questions about your professional background using your LinkedIn PDF and summary
 
 ## Features
 
-- AI-powered responses based on your LinkedIn profile
-- Easy deployment with Render
-- Embeddable in any webpage
-- Responsive design
-- Secure and private - your data stays in your deployment
+- **Gradio Interface**: Clean, user-friendly chat interface
+- **AI-Powered**: Uses OpenAI's GPT models for intelligent responses
+- **Document Processing**: Extracts information from your LinkedIn PDF
+- **Docker Deployment**: Containerized for reliable deployment
+- **Fast Dependencies**: Uses uv for quick installation and updates
+- **Responsive Design**: Works on desktop and mobile devices
+
+## Technical Details
+
+### Architecture
+- **Frontend**: Gradio web interface
+- **Backend**: Python with OpenAI API integration
+- **Document Processing**: PyPDF for PDF text extraction
+- **Deployment**: Docker container with Python 3.12
+- **Dependency Management**: uv for fast, reliable package management
+
+### Key Files
+- `run_gradio.py`: Main entry point for the Gradio application
+- `linkedin_profile_chatbot/app.py`: Gradio interface configuration
+- `linkedin_profile_chatbot/chat.py`: Chat logic and AI integration
+- `linkedin_profile_chatbot/core.py`: Core functionality and document processing
+- `Dockerfile`: Container configuration for deployment
+- `pyproject.toml`: Project configuration and dependencies
 
 ## Troubleshooting
 
 ### Common Issues
 
-**Chatbot not loading**: Check that your Render deployment is active and the URL is correct.
+**Build fails on Hugging Face**: 
+- Ensure your `.env` file is not committed to the repository
+- Add your OpenAI API key as a secret in Hugging Face Spaces settings
+- Check that all required files are present in the `/assets` folder
 
-**No responses**: Ensure your `linkedin.pdf` and `summary.txt` files are properly placed in the `/me` folder.
+**Chatbot gives generic responses**: 
+- Verify your `linkedin.pdf` and `summary.txt` files are in the `/assets` folder
+- Check that the PDF contains readable text (not just images)
+- Ensure your OpenAI API key is valid and has sufficient credits
 
-**Deployment fails**: Check the Render logs for specific error messages and ensure all dependencies are properly listed.
+**Local development issues**:
+- Install uv: `curl -LsSf https://astral.sh/uv/install.sh | sh`
+- Run `uv sync` to install dependencies
+- Check that Python 3.12+ is available
+
+### Docker Build Issues
+If you encounter Docker build issues locally:
+```bash
+# Build the Docker image
+docker build -t linkedin-chatbot .
+
+# Run the container
+docker run -p 7860:7860 linkedin-chatbot
+```
 
 ## Support
 
-For issues or questions, please check the deployment logs on Render or review the local server output for debugging information.
+For issues or questions:
+1. Check the Hugging Face Spaces logs for deployment issues
+2. Verify your OpenAI API key and credits
+3. Ensure your profile documents are properly formatted and placed in `/assets`
